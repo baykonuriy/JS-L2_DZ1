@@ -61,12 +61,12 @@ class Hamburger {
                 <div class='kcl' style='font-size: 14px; margin-bottom:4px;'>
                     калорийность – <span>${kcl}</span>
                 </div>
-                <div class='remove-size' style='color: blue; padding-top: 12px;'>${button}</div>
+                <div class='remove-size' style='color: blue;'>${button}</div>
             </div>
        `;
     }
     makeObjStuff = (name = 'Сыр', price = '20', kcl = '40', button = 'Add') => {
-        return `<div class='staff removed' style='font-size:12px; padding-bottom: 8px;'>
+        return `<div class='staff removed' style='font-size:14px; padding-bottom: 8px;'>
                     <span class='staff-add' style='color: blue;'>${button}</span>
                     <span class='staff-name'>
                         ${name},
@@ -129,6 +129,7 @@ class Hamburger {
                     this.removeCard();
                     this.addStaff();
                     this.calculateCard();
+                    this.getAlert();
                 }
             })
         })
@@ -160,6 +161,7 @@ class Hamburger {
                 }
             }
             this.calculateCard();
+            this.getAlert();
         })
     }
     calculateCard = () => {
@@ -202,9 +204,27 @@ class Hamburger {
             this.renderTotalCounts();
         }
     }
+    addAlert(elem) {
+        elem.insertAdjacentHTML('beforeend', `
+                <div class='alert' style='font-size: 14px; margin-top: 8px; width: 320px; background-color: #ff00002e; padding: 8px 12px; border-radius: 8px;'><span>Выберите хотя бы одну добавку</span></div>
+        `)
+    }
+    getAlert = () => {
+        let bascetCards = document.querySelectorAll('.bascet .size');
+        for (let i = 0; i < bascetCards.length; i++) {
+            let bascetCardFull = bascetCards[i].querySelectorAll('.staff.added');
+            let alerts = bascetCards[i].querySelectorAll('.alert');
+            if (bascetCardFull.length == 0 && alerts.length == 0) {
+                this.addAlert(bascetCards[i]);
+            }
+            if (bascetCardFull.length > 0 && alerts.length == 1) {
+                alerts[0].remove();
+            }
+        }
+
+    }
 }
-
-
 
 let hamburger = new Hamburger();
 hamburger.renderSize();
+
