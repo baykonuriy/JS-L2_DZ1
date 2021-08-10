@@ -53,7 +53,7 @@ class Hamburger {
 
     makeObj(name, price, kcl, button = 'Add Hamberger') {
         return `
-            <div class='size' style='margin: 24px;'>Гамбургер – 
+            <div class='size' style='padding: 24px; margin: 12px; width: 360px; border-radius: 8px; box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.03); border: 1px solid #00000014; background-color: white;'>Гамбургер – 
                 <span class='name'>${name}</span>
                 <div class='price' style='font-size: 14px; margin:4px 0;'>
                     цена – <span>${price}</span>

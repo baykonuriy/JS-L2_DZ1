@@ -150,8 +150,3 @@ class NavBascet {
         });
     }
 }
-
-let navBascet = new NavBascet();
-navBascet.render();
-navBascet.getNavBascetCard();
-navBascet.removeCard();
