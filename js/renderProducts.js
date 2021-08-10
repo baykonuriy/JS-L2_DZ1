@@ -1,8 +1,31 @@
+
+const makeGETRequest = (method, url) => {
+    return new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.open(method, url);
+        xhr.responseType = 'json';
+
+        xhr.onload = () => {
+            if (xhr.status >= 400) {
+                reject(xhr.response);
+            }
+            else {
+                resolve(xhr.response);
+            }
+
+        }
+        xhr.send();
+    })
+}
+
+const API_URL = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses/catalogData.json';
+
 class ProductCardItem {
-    constructor(title, price, description) {
-        this.title = title;
+    constructor(product_name, price, id) {
+        this.product_name = product_name;
         this.price = price;
-        this.description = description;
+        this.id = id;
+        this.description = 'description';
     }
     render() {
         return `<article class="card-product">
@@ -19,42 +42,70 @@ class ProductCardItem {
                         <img src="img/products/img1.png" alt="" class="card-product__image">
                     </div>
                     <div class="card-product__description">
-                        <a href="#" class="card-product__description__h4">${this.title}</a>
+                        <span style='display: none;'>${this.id}</span>
+                        <a href="#" class="card-product__description__h4">${this.product_name}</a>
                         <p class="card-product__description__p">${this.description}</p>
                         <span class="card-product__price">${this.price}</span>
                     </div>
                 </article> `;
     }
-
 }
 
 class ProductCardList {
     constructor() {
         this.cards = [];
     }
-    fetchCards() {
-        this.cards = [
-            {
-                title: 'Shirt',
-                description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
-                price: 150
-            },
-            {
-                title: 'Socks',
-                description: 'Dolor sit amet, consectetur adipiscing elit',
-                price: 350
-            },
-            {
-                title: 'Shoes',
-                description: 'Consectetur adipiscing elit. Dolor sit amet, consectetur adipiscing elit',
-                price: 250
-            },
-        ];
+    async fetchCards() {
+        return await fetch(API_URL).then(response => {
+            return response.json();
+        }).then(data => {
+            this.cards = data;
+            this.render();
+        }).then(() => {
+            let navBascet = new NavBascet();
+            navBascet.render();
+            navBascet.getNavBascetCard();
+            navBascet.removeCard();
+        }).then(() => {
+            let productCards = document.querySelectorAll('.card-product');
+            productCards.forEach(elem => {
+                elem.addEventListener('mouseover', e => {
+                    e.currentTarget.classList.add('hover');
+                })
+                elem.addEventListener('mouseout', e => {
+                    e.currentTarget.classList.remove('hover');
+                })
+            })
+        })
+
+        // makeGETRequest('GET', API_URL)
+        //     .then(data => {
+        //         return this.cards = data;
+        //     })
+        //     .then((data) => {
+        //         this.render();
+        //     })
+        //     .then(() => {
+        //         let navBascet = new NavBascet();
+        //         navBascet.render();
+        //         navBascet.getNavBascetCard();
+        //         navBascet.removeCard();
+        //     }).then(() => {
+        //         let productCards = document.querySelectorAll('.card-product');
+        //         productCards.forEach(elem => {
+        //             elem.addEventListener('mouseover', e => {
+        //                 e.currentTarget.classList.add('hover');
+        //             })
+        //             elem.addEventListener('mouseout', e => {
+        //                 e.currentTarget.classList.remove('hover');
+        //             })
+        //         })
+        //     })
     }
     render() {
         let listHtml = '';
         this.cards.forEach(elem => {
-            const productCardItem = new ProductCardItem(elem.title, elem.price, elem.description);
+            const productCardItem = new ProductCardItem(elem.product_name, elem.price, elem.id_product);
             listHtml += productCardItem.render();
         })
         document.querySelector('.filter').insertAdjacentHTML('afterend', listHtml);
@@ -70,5 +121,3 @@ class ProductCardList {
 
 let cardList = new ProductCardList();
 cardList.fetchCards();
-cardList.render();
-cardList.calculate();
