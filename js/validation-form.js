@@ -9,16 +9,17 @@ class Form {
         this.tPhone = this.allForm.tPhone;
         this.btn = this.allForm.btn;
         this.text = this.allForm.text;
-        this.regExp = {
+        this.regEx = {
             name: /^[А-ЯЁа-яёA-Za-z]+\-[А-ЯЁа-яёA-Za-z]+$|^[А-ЯЁа-яёA-Za-z\s]+$/gm,
             email: /^([a-z0-9_\.-]+)@([a-z0-9_\.-]+)\.([a-z\.]{2,6})$/,
-            phone: /^\+7(\d{3}|\(\d{3}\))(\d{7}|\d{4}(\-|\–)\d{3})$/g,
+            // phone: /^\+7(\d{3}|\(\d{3}\))(\d{7}|\d{4}(\-|\–)\d{3})$/g,
+            // phone: /^\+7\d{10}$|^\+7\(\d{3}\)\d{7}$/gm,
+            phone: /\+7\(\d{3}\)\d{4}\-\d{3}/,
             text: /./g,
         }
     }
-    check(elem, regExp) {
-        let checkElem = () => { return regExp.test(elem.value) };
-        if (checkElem() == false && elem.value !== '') {
+    check(elem, regEx) {
+        if (regEx.test(elem.value) == false && elem.value !== '') {
             elem.style.backgroundColor = 'red';
             elem.style.color = '#fff';
             this.alerts(elem.name);
@@ -31,22 +32,22 @@ class Form {
     }
     validName() {
         this.fName.addEventListener('focusout', (e) => {
-            this.check(e.target, this.regExp.name);
+            this.check(e.target, this.regEx.name);
         })
     }
     validEmail() {
         this.eMail.addEventListener('focusout', (e) => {
-            this.check(e.currentTarget, this.regExp.email);
+            this.check(e.currentTarget, this.regEx.email);
         })
     }
     validPhone() {
         this.tPhone.addEventListener('focusout', (e) => {
-            this.check(e.currentTarget, this.regExp.phone);
+            this.check(e.target, this.regEx.phone);
         })
     }
     validTextArea() {
         this.text.addEventListener('focusout', (e) => {
-            this.check(e.currentTarget, this.regExp.text);
+            this.check(e.target, this.regEx.text);
         })
     }
     validBtn() {
@@ -75,7 +76,7 @@ class Form {
             return emptyFields;
         }
 
-        if (inValidForms() && emptyFields()) {
+        if (inValidForms() == true && emptyFields() == true) {
             this.btn.removeAttribute('disabled');
             document.querySelector('#span').style.display = 'none';
         }
