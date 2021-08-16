@@ -31,9 +31,9 @@ class NavBascetCard {
 
 class NavBascet {
     render() {
-        return document.querySelector('.nav__wrp__bar').insertAdjacentHTML(
+        document.querySelector('.nav__wrp__bar').insertAdjacentHTML(
             'beforeend',
-            `<section class="nav-bacet">
+            `<section class="nav-bacet" style="display: none;">
                 <div class="nav-bacet__card nav-bacet__card_header">
                     <div class="nav-bacet__card__item nav-bacet__card__item_img-wrp">
                         <p>Product Name</p>
@@ -59,6 +59,21 @@ class NavBascet {
                     </div>
                 </div>
             </section>`);
+        this.showBascet();
+    }
+    showBascet() {
+        const btn = document.querySelector('.icon-button.icon-button_bascet');
+        let bascet = document.querySelector('.nav-bacet');
+        btn.addEventListener('mouseover', e => {
+            bascet.style.display = 'block';
+        })
+        document.body.addEventListener('click', e => {
+            if (e.target.className == 'nav-bacet' || e.target.className == 'nav-bacet__card__button') {
+                return bascet.style.display = 'block';
+            }
+            bascet.style.display = 'none';
+
+        })
     }
     checkContainer = elem => {
         const productCard = {

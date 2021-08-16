@@ -723,17 +723,36 @@
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  width: 100%;
 }
-.nav__wrp__logo-end-search .icon-button:first-child {
-  width: 44px;
+.nav__wrp__logo-end-search .icon-button.icon-button_logo {
+  width: 48px;
   height: 38px;
   background-image: url(../img/logo.png);
   background-repeat: no-repeat;
   background-position: center;
   margin-left: 0;
 }
-.nav__wrp__logo-end-search .icon-button:first-child:hover {
+.nav__wrp__logo-end-search .icon-button.icon-button_logo:hover {
   opacity: 0.8;
+}
+.nav__wrp__logo-end-search .icon-button.icon-button_search {
+  margin-right: 12px;
+}
+.nav__wrp__logo-end-search .new-inp_txt {
+  margin-bottom: 0;
+  background-color: #222222;
+  border: none;
+  color: white;
+}
+.nav__wrp__logo-end-search .new-inp_txt:hover {
+  background-color: #101010;
+}
+.nav__wrp__logo-end-search .new-inp_txt:focus {
+  border: none;
+}
+.nav__wrp__logo-end-search .new-inp_txt:focus:hover {
+  border: none;
 }
 .nav__wrp .icon-button {
   width: 32px;
