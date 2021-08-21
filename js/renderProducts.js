@@ -12,7 +12,6 @@ const makeGETRequest = (method, url) => {
             else {
                 resolve(xhr.response);
             }
-
         }
         xhr.send();
     })
